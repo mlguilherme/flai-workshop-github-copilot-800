@@ -21,11 +21,10 @@ function exerciseLabel(e) {
   return detail;
 }
 
-const API_BASE = process.env.REACT_APP_CODESPACE_NAME
-  ? `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev`
-  : 'http://localhost:8000';
-
-const ENDPOINT = `${API_BASE}/api/workouts/`;
+const CODESPACE = process.env.REACT_APP_CODESPACE_NAME;
+const ENDPOINT = CODESPACE
+  ? `https://${CODESPACE}-8000.app.github.dev/api/workouts/`
+  : 'http://localhost:8000/api/workouts/';
 
 function Workouts() {
   const [workouts, setWorkouts] = useState([]);

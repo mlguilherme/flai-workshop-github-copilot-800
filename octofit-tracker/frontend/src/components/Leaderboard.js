@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import LoadingSpinner from './LoadingSpinner';
 
-const API_BASE = process.env.REACT_APP_CODESPACE_NAME
-  ? `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev`
+const CODESPACE = process.env.REACT_APP_CODESPACE_NAME;
+const API_BASE = CODESPACE
+  ? `https://${CODESPACE}-8000.app.github.dev`
   : 'http://localhost:8000';
+const LEADERBOARD_ENDPOINT = CODESPACE
+  ? `https://${CODESPACE}-8000.app.github.dev/api/leaderboard/`
+  : 'http://localhost:8000/api/leaderboard/';
 
 function parseMembers(members) {
   if (Array.isArray(members)) return members;
@@ -22,7 +26,7 @@ function Leaderboard() {
 
   useEffect(() => {
     Promise.all([
-      fetch(`${API_BASE}/api/leaderboard/`).then((r) => r.json()),
+      fetch(LEADERBOARD_ENDPOINT).then((r) => r.json()),
       fetch(`${API_BASE}/api/users/`).then((r) => r.json()),
       fetch(`${API_BASE}/api/teams/`).then((r) => r.json()),
       fetch(`${API_BASE}/api/activities/`).then((r) => r.json()),

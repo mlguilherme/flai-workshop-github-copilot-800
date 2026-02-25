@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-const API_BASE = process.env.REACT_APP_CODESPACE_NAME
-  ? `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev`
-  : 'http://localhost:8000';
-
-const TEAMS_ENDPOINT = `${API_BASE}/api/teams/`;
-const USERS_ENDPOINT = `${API_BASE}/api/users/`;
+const CODESPACE = process.env.REACT_APP_CODESPACE_NAME;
+const TEAMS_ENDPOINT = CODESPACE
+  ? `https://${CODESPACE}-8000.app.github.dev/api/teams/`
+  : 'http://localhost:8000/api/teams/';
+const USERS_ENDPOINT = CODESPACE
+  ? `https://${CODESPACE}-8000.app.github.dev/api/users/`
+  : 'http://localhost:8000/api/users/';
 
 // members arrives as a JSON-encoded string from the backend TextField
 function parseMembers(members) {

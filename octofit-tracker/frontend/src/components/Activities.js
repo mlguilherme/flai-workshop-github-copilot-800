@@ -22,9 +22,13 @@ function activityMeta(type = '') {
   return { icon: '⚡', cls: 'other' };
 }
 
-const API_BASE = process.env.REACT_APP_CODESPACE_NAME
-  ? `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev`
-  : 'http://localhost:8000';
+const CODESPACE = process.env.REACT_APP_CODESPACE_NAME;
+const ACTIVITIES_ENDPOINT = CODESPACE
+  ? `https://${CODESPACE}-8000.app.github.dev/api/activities/`
+  : 'http://localhost:8000/api/activities/';
+const USERS_ENDPOINT = CODESPACE
+  ? `https://${CODESPACE}-8000.app.github.dev/api/users/`
+  : 'http://localhost:8000/api/users/';
 
 function Activities() {
   const [activities, setActivities] = useState([]);
@@ -34,8 +38,8 @@ function Activities() {
 
   useEffect(() => {
     Promise.all([
-      fetch(`${API_BASE}/api/activities/`).then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }),
-      fetch(`${API_BASE}/api/users/`).then((r)      => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }),
+      fetch(ACTIVITIES_ENDPOINT).then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }),
+      fetch(USERS_ENDPOINT).then((r)      => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }),
     ])
       .then(([actData, userData]) => {
         const acts  = Array.isArray(actData)  ? actData  : actData.results  || [];
