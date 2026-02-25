@@ -32,19 +32,16 @@ function Workouts() {
   const [error, setError]       = useState(null);
 
   useEffect(() => {
-    console.log('Workouts: fetching from', ENDPOINT);
     fetch(ENDPOINT)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
       })
       .then((data) => {
-        console.log('Workouts: fetched data', data);
         setWorkouts(Array.isArray(data) ? data : data.results || []);
         setLoading(false);
       })
       .catch((err) => {
-        console.error('Workouts: fetch error', err);
         setError(err.message);
         setLoading(false);
       });

@@ -25,15 +25,11 @@ function Teams() {
   const [error, setError]       = useState(null);
 
   useEffect(() => {
-    console.log('Teams: fetching from', TEAMS_ENDPOINT);
-    console.log('Users: fetching from', USERS_ENDPOINT);
     Promise.all([
       fetch(TEAMS_ENDPOINT).then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }),
       fetch(USERS_ENDPOINT).then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }),
     ])
       .then(([teamsData, usersData]) => {
-        console.log('Teams: fetched data', teamsData);
-        console.log('Users: fetched data', usersData);
         setTeams(Array.isArray(teamsData) ? teamsData : teamsData.results || []);
         // Build email → name lookup map
         const users = Array.isArray(usersData) ? usersData : usersData.results || [];
@@ -42,7 +38,6 @@ function Teams() {
         setEmailToName(map);
       })
       .catch((err) => {
-        console.error('Teams: fetch error', err);
         setError(err.message);
       });
   }, []);

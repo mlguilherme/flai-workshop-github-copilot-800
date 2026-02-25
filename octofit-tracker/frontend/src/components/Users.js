@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import LoadingSpinner from './LoadingSpinner';
 import EditUserModal from './EditUserModal';
 
 const CODESPACE = process.env.REACT_APP_CODESPACE_NAME;
@@ -22,25 +23,24 @@ function parseMembers(members) {
 function Users() {
   const [users, setUsers]       = useState([]);
   const [teams, setTeams]       = useState([]);
+  const [loading, setLoading]   = useState(true);
   const [error, setError]       = useState(null);
   const [editing, setEditing]   = useState(null); // user being edited
 
   const loadData = useCallback(() => {
-    console.log('Users: fetching from', USERS_ENDPOINT);
-    console.log('Teams: fetching from', TEAMS_ENDPOINT);
+    setLoading(true);
     Promise.all([
       fetch(USERS_ENDPOINT).then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }),
       fetch(TEAMS_ENDPOINT).then((r) => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }),
     ])
       .then(([usersData, teamsData]) => {
-        console.log('Users: fetched data', usersData);
-        console.log('Teams: fetched data', teamsData);
         setUsers(Array.isArray(usersData) ? usersData : usersData.results || []);
         setTeams(Array.isArray(teamsData) ? teamsData : teamsData.results || []);
+        setLoading(false);
       })
       .catch((err) => {
-        console.error('Users: fetch error', err);
         setError(err.message);
+        setLoading(false);
       });
   }, []);
 
@@ -58,7 +58,8 @@ function Users() {
     loadData();
   }
 
-  if (error) return <div className="alert alert-danger">Error: {error}</div>;
+  if (error)   return <div className="alert alert-danger">Error: {error}</div>;
+  if (loading) return <LoadingSpinner label="Loading users…" />;
 
   return (
     <div className="container mt-4">
