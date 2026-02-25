@@ -17,13 +17,25 @@ const NAV_ITEMS = [
   { path: '/workouts',    label: 'Workouts',    icon: '💪' },
 ];
 
+function closeNavbar() {
+  const el = document.getElementById('octoNav');
+  if (el && el.classList.contains('show')) {
+    // Use Bootstrap's Collapse API if available, otherwise toggle class directly
+    if (window.bootstrap && window.bootstrap.Collapse) {
+      window.bootstrap.Collapse.getInstance(el)?.hide();
+    } else {
+      el.classList.remove('show');
+    }
+  }
+}
+
 function App() {
   return (
     <div>
       <nav className="navbar navbar-expand-lg octo-navbar">
         <div className="container-fluid">
           {/* Logo + brand – left-justified */}
-          <NavLink className="navbar-brand" to="/">
+          <NavLink className="navbar-brand" to="/" onClick={closeNavbar}>
             <img src={logo} alt="OctoFit logo" />
             OctoFit <span className="brand-accent">Tracker</span>
           </NavLink>
@@ -49,6 +61,7 @@ function App() {
                       'nav-link' + (isActive ? ' active' : '')
                     }
                     to={path}
+                    onClick={closeNavbar}
                   >
                     <span className="nav-icon">{icon}</span>
                     {label}
