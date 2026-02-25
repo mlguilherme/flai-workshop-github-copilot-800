@@ -7,6 +7,15 @@ from octofit_tracker.views import (
     LeaderboardViewSet, WorkoutViewSet, api_root
 )
 
+# Build the base URL for the API using the Codespaces environment variable so
+# that all self-describing links resolve correctly via the GitHub proxy.
+CODESPACE_NAME = os.environ.get('CODESPACE_NAME')
+API_BASE_URL = (
+    f"https://{CODESPACE_NAME}-8000.app.github.dev"
+    if CODESPACE_NAME
+    else "http://localhost:8000"
+)
+
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'teams', TeamViewSet)
@@ -16,7 +25,6 @@ router.register(r'workouts', WorkoutViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', api_root, name='api-root'),
-    path('api/', api_root, name='api-root-prefix'),
+    path('api/', api_root, name='api-root'),
     path('api/', include(router.urls)),
 ]
