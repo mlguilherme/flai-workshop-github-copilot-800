@@ -113,13 +113,47 @@ body::before {
     height: auto;
     padding: 0.6rem 1.5rem;
   }
+
+  /* Smooth slide-down + fade-in transition */
   .octo-navbar .navbar-collapse {
     width: 100%;
     background: #12141a;
     border-top: 1px solid var(--f-border);
     margin: 0.5rem -1.5rem -0.6rem;
+    padding: 0 1.5rem;
+
+    /* animation state: collapsed */
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition:
+      max-height 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity    0.25s ease,
+      transform  0.25s ease,
+      padding    0.25s ease;
+  }
+
+  /* Bootstrap adds .collapsing during transition — keep our override */
+  .octo-navbar .navbar-collapse.collapsing {
+    height: auto !important;
+    max-height: 400px;
+    opacity: 0.6;
+    transform: translateY(-4px);
+    transition:
+      max-height 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity    0.25s ease,
+      transform  0.25s ease,
+      padding    0.25s ease;
+  }
+
+  .octo-navbar .navbar-collapse.show {
+    max-height: 400px;
+    opacity: 1;
+    transform: translateY(0);
     padding: 0.5rem 1.5rem 0.75rem;
   }
+
   .octo-navbar .navbar-nav {
     flex-direction: column;
     gap: 0.15rem;
