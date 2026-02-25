@@ -100,8 +100,41 @@ body::before {
   background: rgba(0,229,118,0.1);
 }
 .octo-navbar .nav-link .nav-icon { font-size: 1rem; line-height: 1; }
-.navbar-toggler { border-color: var(--f-border); }
+.navbar-toggler {
+  border-color: var(--f-border);
+  padding: 0.3rem 0.6rem;
+}
 .navbar-toggler-icon { filter: invert(1); }
+
+/* Mobile collapse menu — solid background, full width, padded */
+@media (max-width: 991.98px) {
+  .octo-navbar {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 0.6rem 1.5rem;
+  }
+  .octo-navbar .navbar-collapse {
+    width: 100%;
+    background: #12141a;
+    border-top: 1px solid var(--f-border);
+    margin: 0.5rem -1.5rem -0.6rem;
+    padding: 0.5rem 1.5rem 0.75rem;
+  }
+  .octo-navbar .navbar-nav {
+    flex-direction: column;
+    gap: 0.15rem;
+    width: 100%;
+  }
+  .octo-navbar .nav-link {
+    padding: 0.55rem 0.75rem !important;
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+  }
+  .octo-navbar .nav-link:hover,
+  .octo-navbar .nav-link.active {
+    background: rgba(0,229,118,0.1);
+  }
+}
 
 /* ── Main layout ──────────────────────────────────────────── */
 .octo-main { padding: 2rem 1rem 4rem; }
